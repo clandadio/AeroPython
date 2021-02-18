@@ -22,7 +22,7 @@ servotab_pos = (169, 500)
 
 root = Tk()
 root.title('Payload Release Height')         # window title
-root.configure(bg = '4E4A4A')               # background color
+root.configure(bg = 'white')                 # background color
 
 # Values for windows on the screen
 scr_res = (1366, 768)                       # screen resolution

@@ -46,7 +46,7 @@ servotab_pos = (169, 500)
 
 # initially triggered with shift+j in AHK, then use defined hotkeys
 
-def writedata(filename_txt, filename_csv, droptype):                          # function to write timestamps and relay status
+def writedata(filename_txt, filename_csv, droptype):         # function to write timestamps and relay status
     if logstatus:
             with open(logfilename_txt, mode='a', encoding='utf-8') as logfile:
                 logfile.write(
@@ -67,34 +67,34 @@ def camera_toggle():
     global camerahigh
     print(camerahigh)
 
-    # mouse.position = servotab_pos         # movement to servo/relay tab button
-    # mouse.click(Button.left, 1)           # trigger servo/relay tab
+    mouse.position = servotab_pos         # movement to servo/relay tab button
+    mouse.click(Button.left, 1)           # trigger servo/relay tab
 
     if not camerahigh:
-        # mouse.position = relay_high_pos   # movement to servo button
-        # mouse.click(Button.left, 1)       # trigger servo button
+        mouse.position = relay_high_pos   # movement to servo button
+        mouse.click(Button.left, 1)       # trigger servo button
 
         writedata(logfilename_txt, logfilename_csv, 'Camera wide to narrow')
             
-        # time.sleep(0.3)                   # delay for program and transmission
+        time.sleep(0.3)                   # delay for program and transmission
         camerahigh = True
 
     else:
-        # mouse.position = relay_low_pos    # movement to servo button
-        # mouse.click(Button.left, 1)       # trigger servo button
+        mouse.position = relay_low_pos    # movement to servo button
+        mouse.click(Button.left, 1)       # trigger servo button
 
         writedata(logfilename_txt, logfilename_csv, 'Camera narrow to wide')
 
-        # time.sleep(0.3)                   # delay for program and transmission
+        time.sleep(0.3)                   # delay for program and transmission
         camerahigh = False
 
-    # mouse.position = quicktab_pos        # movement to quick tab button
-    # mouse.click(Button.left, 1)          # trigger switch to quick tab
+    mouse.position = quicktab_pos         # movement to quick tab button
+    mouse.click(Button.left, 1)           # trigger switch to quick tab
 
     print(camerahigh)
 
 def hi():
-    print('hi')                         # debugging
+    print('hi')                           # debugging
 
 def glider_drop():
     global gliderhigh
