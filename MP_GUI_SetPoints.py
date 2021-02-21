@@ -15,6 +15,8 @@ hotkey = 'S'
 iteration = 0
 
 cf['Coordinates'] = {}
+cf['Bounding Box Size'] = {'size' : '(200, 100)'}
+cf['Screen Resolution'] = {'res' : '(1366, 768)'}
 
 def setting():
     global iteration

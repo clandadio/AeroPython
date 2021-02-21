@@ -1,12 +1,13 @@
-# Chris Landadio 2/18/21
+# Chris Landadio 2/21/21
 
 # Make sure the Relay is set to LOW to begin with so the toggling can work correctly
 # Low should correspond to C1 and High to C2 by default
 
 from pynput.mouse import Button, Controller
 from pynput import keyboard
-import time, datetime, csv, configparser
+import time, datetime, csv, configparser, sys
 
+cf = configparser.ConfigParser()
 mouse = Controller()    # the mouse is the given controller
 
 camerahigh = False      # camera starts on low
@@ -35,14 +36,18 @@ else:
     print('The flight will NOT be logged')
     logstatus = False
 
+# Configuration file used for coordinate values for various positions actions
+ini_filepath = r'H:\Aero\Python\Movement_Coordinates.ini'
+cf.read(ini_filepath)
+
 # relay button mouse position - (High on Relay0) - camera switch
-relay_high_pos = (76, 694)
+relay_high_pos = eval(cf['Coordinates']['relay_high_pos'])
 # relay button mouse position - (Low on Relay0) - camera switch
-relay_low_pos = (32, 696)
+relay_low_pos = eval(cf['Coordinates']['relay_low_pos'])
 # quick button mouse position - For stats and screenshot
-quicktab_pos = (23,499)
+quicktab_pos = eval(cf['Coordinates']['quicktab_pos'])
 # servo/relay button mouse position - For servos and relay manual triggering
-servotab_pos = (169, 500)
+servotab_pos = eval(cf['Coordinates']['servotab_pos'])
 
 # initially triggered with shift+j in AHK, then use defined hotkeys
 
@@ -114,10 +119,14 @@ def payload_drop():
 
     else:
         writedata(logfilename_txt, logfilename_csv, 'Payload low to high')
-        payloadhigh = True     
+        payloadhigh = True   
+
+def killscript():
+    sys.exit()
 
 with keyboard.GlobalHotKeys({
         'c' : camera_toggle,
+        '<esc>' : killscript,
         '<shift>+g' : glider_drop,
         '<shift>+h' : payload_drop,
         'd' : hi}) as h:

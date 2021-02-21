@@ -9,27 +9,35 @@ import time, configparser
 Drop_name = 'glider'            #defines windows placement
 
 mouse = Controller()
-boundingbox = (42,520,242,620)  #screenshot bounding box
+cf = configparser.ConfigParser()
+ini_filepath = r'H:\Aero\Python\Movement_Coordinates.ini'
+cf.read(ini_filepath)
+
+BBSize = eval(cf['Bounding Box Size']['size'])
+ULBBCorner = eval(cf['Coordinates']['ulbbcorner'])
+BRBBCorner = ULBBCorner[0]+BBSize[0], ULBBCorner[1]+BBSize[1]
+boundingbox = ULBBCorner+BRBBCorner
+print(boundingbox)
 
 # glider button mouse position - (High on Servo10) - Release for Glider
-glider_pos = (92,532)
+glider_pos = eval(cf['Coordinates']['glider_pos'])
 # payload button mouse position - (High on Servo11) - Release for Payload
-payload_pos = (92,566)
+payload_pos = eval(cf['Coordinates']['payload_pos'])
 # quick button mouse position - For stats and screenshot
-quicktab_pos = (23,499)
+quicktab_pos = eval(cf['Coordinates']['quicktab_pos'])
 # servo/relay button mouse position - For servos and relay manual triggering
-servotab_pos = (169, 500)
+servotab_pos = eval(cf['Coordinates']['servotab_pos'])
 
 root = Tk()
 root.title('Glider Release Height')         # window title
 root.configure(bg = 'white')                # background color
 
 # Values for windows on the screen
-scr_res = (1366, 768)                       # screen resolution
-offset = 7                                  # offset from edge of screen (subjective)
-x_coord = 960-offset                        # location of top left corner of the window
-if Drop_name == 'glider':                   # glider widget will be on the top half rn
-    y_coord = 0                             # location of top left corner of the window
+scr_res = eval(cf['Screen Resolution']['res'])      # screen resolution
+offset = 7                                          # offset from edge of screen (subjective)
+x_coord = 960-offset                                # location of top left corner of the window
+if Drop_name == 'glider':                           # glider widget will be on the top half rn
+    y_coord = 0                                     # location of top left corner of the window
 else:
     y_coord = int(scr_res[1]/2)             
 width = scr_res[0]-x_coord-offset           # size of the window
