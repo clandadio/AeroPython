@@ -1,11 +1,11 @@
-# Chris Landadio 2/17/21
+# Chris Landadio 2/18/21
 
 # Make sure the Relay is set to LOW to begin with so the toggling can work correctly
 # Low should correspond to C1 and High to C2 by default
 
 from pynput.mouse import Button, Controller
 from pynput import keyboard
-import time, datetime, csv
+import time, datetime, csv, configparser
 
 mouse = Controller()    # the mouse is the given controller
 

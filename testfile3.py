@@ -1,2 +1,2 @@
-with open('testfile.txt', mode='w') as f:
-    f.write('taco'+'\n'+'taco')
+x = 'chicken'
+print(f'{x} is a taco')

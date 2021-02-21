@@ -4,7 +4,7 @@ from pynput.mouse import Button, Controller
 from tkinter import Label, Grid, mainloop, Tk
 from PIL import ImageTk, Image
 import pyscreenshot as ss
-import time
+import time, configparser
 
 Drop_name = 'payload'            #defines windows placement
 
