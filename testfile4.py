@@ -8,3 +8,8 @@ with open(filepath, mode='w', encoding='utf-8') as cf:
 
 config.read(filepath)
 print(config.sections())
+
+config['heading']['tuple'] = '(0000, 0000)'
+
+with open(filepath, mode='w', encoding='utf-8') as cf:
+    config.write(cf)

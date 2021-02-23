@@ -1,4 +1,4 @@
-# Chris Landadio 2/21/21
+# Chris Landadio 2/23/21
 
 # Make sure the Relay is set to LOW to begin with so the toggling can work correctly
 # Low should correspond to C1 and High to C2 by default
@@ -39,6 +39,8 @@ else:
 # Configuration file used for coordinate values for various positions actions
 ini_filepath = r'H:\Aero\Python\Movement_Coordinates.ini'
 cf.read(ini_filepath)
+
+# eval() is required since the ini only accepts str() as inputs and not tuple(), this works fine
 
 # relay button mouse position - (High on Relay0) - camera switch
 relay_high_pos = eval(cf['Coordinates']['relay_high_pos'])
@@ -134,3 +136,5 @@ with keyboard.GlobalHotKeys({
 
 # delays may have to be adjusted based on system lag, mostly MP being slow af
 # the current delays haven't been tuned, but seem to work well ~90% of the time
+# NOTE: They work perfectly over usb link, and could probably be adjusted even lower, however
+# ZERO field testing has been done to test the lag in telemetry and also lower temperature behavior
