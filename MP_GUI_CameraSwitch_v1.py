@@ -1,4 +1,4 @@
-# Chris Landadio 2/23/21
+# Chris Landadio 4/7/21
 
 # Make sure the Relay is set to LOW to begin with so the toggling can work correctly
 # Low should correspond to C1 and High to C2 by default
@@ -11,12 +11,13 @@ cf = configparser.ConfigParser()
 mouse = Controller()    # the mouse is the given controller
 
 camerahigh = False      # camera starts on low
+doorhigh = False
 gliderhigh = False      
 payloadhigh = False
 
 logfilename = str(datetime.datetime.now())[0:-10].replace(':','-')
-logfilename_txt = r'H:\Aero\Python\Logs\\' + logfilename + '.txt'
-logfilename_csv = r'H:\Aero\Python\Logs\\' + logfilename + '.csv'
+logfilename_txt = r'C:\Users\kitty\Desktop\2021 Team\Python\\' + logfilename + '.txt'
+logfilename_csv = r'C:\Users\kitty\Desktop\2021 Team\Python\\' + logfilename + '.csv'
 
 logstatus = input('Would you like to log the Camera and Drop system info for this flight? (Yes/No): ').lower()
 
@@ -37,7 +38,7 @@ else:
     logstatus = False
 
 # Configuration file used for coordinate values for various positions actions
-ini_filepath = r'H:\Aero\Python\Movement_Coordinates.ini'
+ini_filepath = r'C:\Users\kitty\Desktop\2021 Team\Python\Movement_Coordinates.ini'
 cf.read(ini_filepath)
 
 # eval() is required since the ini only accepts str() as inputs and not tuple(), this works fine
@@ -50,6 +51,10 @@ relay_low_pos = eval(cf['Coordinates']['relay_low_pos'])
 quicktab_pos = eval(cf['Coordinates']['quicktab_pos'])
 # servo/relay button mouse position - For servos and relay manual triggering
 servotab_pos = eval(cf['Coordinates']['servotab_pos'])
+# door high button mouse position - for drop door wheel functionality
+door_high = eval(cf['Coordinates']['door_high'])
+# door low button mouse position - for drop door wheel functionality
+door_low = eval(cf['Coordinates']['door_low'])
 
 # initially triggered with shift+j in AHK, then use defined hotkeys
 
@@ -98,7 +103,33 @@ def camera_toggle():
     mouse.position = quicktab_pos         # movement to quick tab button
     mouse.click(Button.left, 1)           # trigger switch to quick tab
 
-    print(camerahigh)
+def door_toggle():
+    global doorhigh
+    print(doorhigh)
+
+    mouse.position = servotab_pos         # movement to servo/relay tab button
+    mouse.click(Button.left, 1)           # trigger servo/relay tab
+
+    if not doorhigh:
+        mouse.position = door_high        # movement to servo button
+        mouse.click(Button.left, 1)       # trigger servo button
+
+        writedata(logfilename_txt, logfilename_csv, 'Drop doors closed to open')
+            
+        time.sleep(0.3)                   # delay for program and transmission
+        doorhigh = True
+
+    else:
+        mouse.position = door_low         # movement to servo button
+        mouse.click(Button.left, 1)       # trigger servo button
+
+        writedata(logfilename_txt, logfilename_csv, 'Drop doors open to closed')
+
+        time.sleep(0.3)                   # delay for program and transmission
+        doorhigh = False
+
+    mouse.position = quicktab_pos         # movement to quick tab button
+    mouse.click(Button.left, 1)           # trigger switch to quick tab
 
 def hi():
     print('hi')                           # debugging
@@ -128,10 +159,11 @@ def killscript():
 
 with keyboard.GlobalHotKeys({
         'c' : camera_toggle,
+        'd' : door_toggle,
         '<esc>' : killscript,
-        '<shift>+g' : glider_drop,
-        '<shift>+h' : payload_drop,
-        'd' : hi}) as h:
+        '1' : glider_drop,
+        '2' : payload_drop,
+        'h' : hi}) as h:
     h.join()
 
 # delays may have to be adjusted based on system lag, mostly MP being slow af

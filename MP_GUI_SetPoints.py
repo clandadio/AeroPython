@@ -10,7 +10,7 @@ from pynput.mouse import Controller
 
 cf = configparser.ConfigParser()
 mouse = Controller()
-filepath = r'H:\Aero\Python\Movement_Coordinates.ini'
+filepath = r'C:\Users\kitty\Desktop\2021 Team\Python\Movement_Coordinates.ini'
 data = cf                                   # copy of existing config file in case of no changes
 data.read(filepath)                         # defining copy
 hotkey = 'S'                                # triggering hotkey for adjusting parameters
@@ -51,14 +51,14 @@ def setting():                                  # it isn't pretty, but it works.
     with open(filepath, mode='w', encoding='utf-8') as config:
         cf.write(config)
 
-print(f'Move mouse to Relay 0 High Position and click {hotkey} when ready')
-
 # the following list is the given parameters that can be edited in the ['Coordinates'] heading
 # you can add/remove items to this list and the script should adjust for the increase automatically
 
-poslist = ['relay_high_pos','relay_low_pos','quicktab_pos','servotab_pos','glider_pos','payload_pos', 'ULBBCorner']
+poslist = ['relay_high_pos','relay_low_pos','quicktab_pos','servotab_pos','glider_pos','payload_pos','door_high','door_low','ULBBCorner']
 
-def hi():           # debugging, give it a try lol
+print(f'Move mouse to {poslist[0]} (Relay 0 High Position) and click {hotkey} when ready')
+
+def hi():               # debugging, give it a try lol
     print('hi')
 
 def killscript():       # ability to kill script after y/n/r options after the beginning

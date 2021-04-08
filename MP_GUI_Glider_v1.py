@@ -10,7 +10,7 @@ Drop_name = 'glider'            #defines windows placement
 
 mouse = Controller()
 cf = configparser.ConfigParser()
-ini_filepath = r'H:\Aero\Python\Movement_Coordinates.ini'
+ini_filepath = r'C:\Users\kitty\Desktop\2021 Team\Python\Movement_Coordinates.ini'
 cf.read(ini_filepath)
 
 BBSize = eval(cf['Bounding Box Size']['size'])
